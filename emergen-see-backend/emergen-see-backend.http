@@ -1,0 +1,6 @@
+@emergen_see_backend_HostAddress = http://localhost:5207
+
+GET {{emergen_see_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
