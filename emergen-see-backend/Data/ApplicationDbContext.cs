@@ -28,7 +28,8 @@ namespace emergen_see_backend.Data
             modelBuilder.Entity<Patient>()
                 .HasOne(p => p.AssignedDoctor)
                 .WithMany(d => d.Patients)
-                .HasForeignKey(p => p.AssignedDoctorId);
+                .HasForeignKey(p => p.AssignedDoctorId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Patient>()
                 .HasOne(p => p.TriageForm)
