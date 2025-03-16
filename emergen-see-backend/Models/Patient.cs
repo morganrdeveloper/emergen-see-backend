@@ -4,14 +4,17 @@
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public int QueueId { get; set; } // Foreign key for Queue
-        public required Queue Queue { get; set; }
-        public int TriageFormId { get; set; } // Foreign key for TriageForm
-        public virtual required TriageForm TriageForm { get; set; }
-        public int? AssignedDoctorId { get; set; } // Nullable foreign key for Doctor
-        public virtual Doctor? AssignedDoctor { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public string? Phonenumber { get; set; }
         public string? Address { get; set; }
+
+        // Relationships
+        public int QueueId { get; set; } // Foreign key
+        public Queue Queue { get; set; } // Navigation property
+
+        public int? AssignedDoctorId { get; set; } // Nullable foreign key
+        public Doctor? AssignedDoctor { get; set; } // Navigation property
+
+        public TriageForm? TriageForm { get; set; } // Navigation property
     }
 }

@@ -12,8 +12,8 @@ using emergen_see_backend.Data;
 namespace emergen_see_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250316054107_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250316082617_CorrectedPatientTriageRelationship")]
+    partial class CorrectedPatientTriageRelationship
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,17 +85,11 @@ namespace emergen_see_backend.Migrations
                     b.Property<int>("QueueId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TriageFormId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AssignedDoctorId");
 
                     b.HasIndex("QueueId");
-
-                    b.HasIndex("TriageFormId")
-                        .IsUnique();
 
                     b.ToTable("Patients");
                 });
@@ -153,6 +147,9 @@ namespace emergen_see_backend.Migrations
 
                     b.HasIndex("NurseId");
 
+                    b.HasIndex("PatientId")
+                        .IsUnique();
+
                     b.ToTable("TriageForms");
                 });
 
@@ -169,17 +166,9 @@ namespace emergen_see_backend.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("emergen_see_backend.Models.TriageForm", "TriageForm")
-                        .WithOne("Patient")
-                        .HasForeignKey("emergen_see_backend.Models.Patient", "TriageFormId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("AssignedDoctor");
 
                     b.Navigation("Queue");
-
-                    b.Navigation("TriageForm");
                 });
 
             modelBuilder.Entity("emergen_see_backend.Models.TriageForm", b =>
@@ -187,18 +176,26 @@ namespace emergen_see_backend.Migrations
                     b.HasOne("emergen_see_backend.Models.Doctor", "Doctor")
                         .WithMany("TriageForms")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("emergen_see_backend.Models.Nurse", "Nurse")
                         .WithMany("TriageForms")
                         .HasForeignKey("NurseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("emergen_see_backend.Models.Patient", "Patient")
+                        .WithOne("TriageForm")
+                        .HasForeignKey("emergen_see_backend.Models.TriageForm", "PatientId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Doctor");
 
                     b.Navigation("Nurse");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("emergen_see_backend.Models.Doctor", b =>
@@ -213,15 +210,14 @@ namespace emergen_see_backend.Migrations
                     b.Navigation("TriageForms");
                 });
 
+            modelBuilder.Entity("emergen_see_backend.Models.Patient", b =>
+                {
+                    b.Navigation("TriageForm");
+                });
+
             modelBuilder.Entity("emergen_see_backend.Models.Queue", b =>
                 {
                     b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("emergen_see_backend.Models.TriageForm", b =>
-                {
-                    b.Navigation("Patient")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
