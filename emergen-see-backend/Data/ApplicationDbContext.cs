@@ -38,7 +38,7 @@ namespace emergen_see_backend.Data
             modelBuilder.Entity<Queue>()
                 .HasMany(q => q.Patients)
                 .WithOne(p => p.Queue)
-                .HasForeignKey(p => p.Queue.Id);
+                .HasForeignKey(p => p.QueueId);
 
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Patients)
