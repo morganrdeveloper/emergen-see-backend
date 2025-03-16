@@ -3,38 +3,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace emergen_see_backend.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        public DbSet<Models.Nurse> Nurses { get; set; }
-        public DbSet<Models.Patient> Patients { get; set; }
-        public DbSet<Models.Doctor> Doctors { get; set; }
-        public DbSet<Models.TriageForm> TriageForms { get; set; }
-        public DbSet<Models.Queue> Queues { get; set; }
+
+        public DbSet<Nurse> Nurses { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<TriageForm> TriageForms { get; set; }
+        public DbSet<Queue> Queues { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure entity relationships and constraints here
-            //Entity Relationships
+            // Configure entity relationships and constraints
             modelBuilder.Entity<Patient>()
                 .HasOne(p => p.Queue)
                 .WithMany(q => q.Patients)
-                .HasForeignKey(p => p.QueueId)
+                .HasForeignKey(p => p.QueueId) // Use the foreign key property
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Patient>()
                 .HasOne(p => p.AssignedDoctor)
                 .WithMany(d => d.Patients)
-                .HasForeignKey(p => p.AssignedDoctorId)
+                .HasForeignKey(p => p.AssignedDoctorId) // Use the foreign key property
                 .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Patient>()
                 .HasOne(p => p.TriageForm)
                 .WithOne(tf => tf.Patient)
-                .HasForeignKey<Patient>(p => p.TriageFormId);
+                .HasForeignKey<Patient>(p => p.TriageFormId); // Specify the foreign key property
+
+            modelBuilder.Entity<Queue>()
+                .HasMany(q => q.Patients)
+                .WithOne(p => p.Queue)
+                .HasForeignKey(p => p.QueueId);
 
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Patients)
@@ -46,18 +52,13 @@ namespace emergen_see_backend.Data
                 .WithOne(tf => tf.Doctor)
                 .HasForeignKey(tf => tf.DoctorId);
 
-            modelBuilder.Entity<Nurse>()
-                .HasMany(n => n.TriageForms)
-                .WithOne(tf => tf.Nurse)
-                .HasForeignKey(tf => tf.NurseId);
-
-            //Entity Properties
+            // Entity Properties
             modelBuilder.Entity<Patient>()
-                .Property(p => p.Queue)
+                .Property(p => p.QueueId)
                 .IsRequired();
 
             modelBuilder.Entity<Patient>()
-                .Property(p => p.TriageForm)
+                .Property(p => p.TriageFormId)
                 .IsRequired();
 
             modelBuilder.Entity<Queue>()
