@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using emergen_see_backend.Data;
+using emergen_see_backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IQueueService, QueueService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<ITriageFormService, TriageFormService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
