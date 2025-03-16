@@ -36,11 +36,6 @@ namespace emergen_see_backend.Data
                 .WithOne(tf => tf.Patient)
                 .HasForeignKey<Patient>(p => p.TriageFormId);
 
-            modelBuilder.Entity<Queue>()
-                .HasMany(q => q.Patients)
-                .WithOne(p => p.Queue)
-                .HasForeignKey(p => p.QueueId);
-
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Patients)
                 .WithOne(p => p.AssignedDoctor)
