@@ -7,7 +7,7 @@
         public DateOnly DateOfBirth { get; set; }
         public string? Phonenumber { get; set; }
         public string? Address { get; set; }
-
+        
         // Relationships
         public int QueueId { get; set; } // Foreign key
         public Queue Queue { get; set; } // Navigation property

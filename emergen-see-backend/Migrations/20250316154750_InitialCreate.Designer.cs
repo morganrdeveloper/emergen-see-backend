@@ -12,8 +12,8 @@ using emergen_see_backend.Data;
 namespace emergen_see_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250316082617_CorrectedPatientTriageRelationship")]
-    partial class CorrectedPatientTriageRelationship
+    [Migration("20250316154750_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
