@@ -43,12 +43,17 @@ namespace emergen_see_backend.Data
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Patients)
                 .WithOne(p => p.AssignedDoctor)
-                .HasForeignKey(p => p.AssignedDoctor);
+                .HasForeignKey(p => p.AssignedDoctorId);
 
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.TriageForms)
                 .WithOne(tf => tf.Doctor)
-                .HasForeignKey(tf => tf.Doctor);
+                .HasForeignKey(tf => tf.DoctorId);
+
+            modelBuilder.Entity<Nurse>()
+                .HasMany(n => n.TriageForms)
+                .WithOne(tf => tf.Nurse)
+                .HasForeignKey(tf => tf.NurseId);
 
             //Entity Properties
             modelBuilder.Entity<Patient>()
