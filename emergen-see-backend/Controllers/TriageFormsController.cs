@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using emergen_see_backend.Models;
+using emergen_see_backend.DTOs;
 using emergen_see_backend.Services;
 
 namespace emergen_see_backend.Controllers
@@ -16,14 +16,14 @@ namespace emergen_see_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TriageForm>>> GetTriageForms()
+        public async Task<ActionResult<IEnumerable<TriageFormDto>>> GetTriageForms()
         {
             var triageForms = await _triageFormService.GetAllTriageFormsAsync();
             return Ok(triageForms);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TriageForm>> GetTriageForm(int id)
+        public async Task<ActionResult<TriageFormDto>> GetTriageForm(int id)
         {
             var triageForm = await _triageFormService.GetTriageFormByIdAsync(id);
             if (triageForm == null)
@@ -34,21 +34,21 @@ namespace emergen_see_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<TriageForm>> CreateTriageForm(TriageForm triageForm)
+        public async Task<ActionResult<TriageFormDto>> CreateTriageForm(TriageFormDto triageFormDto)
         {
-            var createdTriageForm = await _triageFormService.CreateTriageFormAsync(triageForm);
+            var createdTriageForm = await _triageFormService.CreateTriageFormAsync(triageFormDto);
             return CreatedAtAction(nameof(GetTriageForm), new { id = createdTriageForm.Id }, createdTriageForm);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTriageForm(int id, TriageForm triageForm)
+        public async Task<IActionResult> UpdateTriageForm(int id, TriageFormDto triageFormDto)
         {
-            if (id != triageForm.Id)
+            if (id != triageFormDto.Id)
             {
                 return BadRequest();
             }
 
-            await _triageFormService.UpdateTriageFormAsync(id, triageForm);
+            await _triageFormService.UpdateTriageFormAsync(id, triageFormDto);
             return NoContent();
         }
 

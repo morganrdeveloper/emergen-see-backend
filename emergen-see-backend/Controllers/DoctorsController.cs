@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using emergen_see_backend.Models;
 using emergen_see_backend.Services;
+using emergen_see_backend.DTOs;
 
 namespace emergen_see_backend.Controllers
 {
@@ -16,14 +17,14 @@ namespace emergen_see_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
+        public async Task<ActionResult<IEnumerable<DoctorDto>>> GetDoctors()
         {
             var doctors = await _doctorService.GetAllDoctorsAsync();
             return Ok(doctors);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Doctor>> GetDoctor(int id)
+        public async Task<ActionResult<DoctorDto>> GetDoctor(int id)
         {
             var doctor = await _doctorService.GetDoctorByIdAsync(id);
             if (doctor == null)
@@ -34,21 +35,21 @@ namespace emergen_see_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Doctor>> CreateDoctor(Doctor doctor)
+        public async Task<ActionResult<DoctorDto>> CreateDoctor(DoctorDto doctorDto)
         {
-            var createdDoctor = await _doctorService.CreateDoctorAsync(doctor);
+            var createdDoctor = await _doctorService.CreateDoctorAsync(doctorDto);
             return CreatedAtAction(nameof(GetDoctor), new { id = createdDoctor.Id }, createdDoctor);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDoctor(int id, Doctor doctor)
+        public async Task<IActionResult> UpdateDoctor(int id, DoctorDto doctorDto)
         {
-            if (id != doctor.Id)
+            if (id != doctorDto.Id)
             {
                 return BadRequest();
             }
 
-            await _doctorService.UpdateDoctorAsync(id, doctor);
+            await _doctorService.UpdateDoctorAsync(id, doctorDto);
             return NoContent();
         }
 

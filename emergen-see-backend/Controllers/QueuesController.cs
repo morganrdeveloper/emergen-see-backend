@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using emergen_see_backend.Models;
 using emergen_see_backend.Services;
+using emergen_see_backend.DTOs;
 
 namespace emergen_see_backend.Controllers
 {
@@ -16,14 +17,14 @@ namespace emergen_see_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Queue>>> GetQueues()
+        public async Task<ActionResult<IEnumerable<QueueDto>>> GetQueues()
         {
             var queues = await _queueService.GetAllQueuesAsync();
             return Ok(queues);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Queue>> GetQueue(int id)
+        public async Task<ActionResult<QueueDto>> GetQueue(int id)
         {
             var queue = await _queueService.GetQueueByIdAsync(id);
             if (queue == null)
@@ -34,21 +35,21 @@ namespace emergen_see_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Queue>> CreateQueue(Queue queue)
+        public async Task<ActionResult<QueueDto>> CreateQueue(QueueDto queueDto)
         {
-            var createdQueue = await _queueService.CreateQueueAsync(queue);
+            var createdQueue = await _queueService.CreateQueueAsync(queueDto);
             return CreatedAtAction(nameof(GetQueue), new { id = createdQueue.Id }, createdQueue);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateQueue(int id, Queue queue)
+        public async Task<IActionResult> UpdateQueue(int id, QueueDto queueDto)
         {
-            if (id != queue.Id)
+            if (id != queueDto.Id)
             {
                 return BadRequest();
             }
 
-            await _queueService.UpdateQueueAsync(id, queue);
+            await _queueService.UpdateQueueAsync(id, queueDto);
             return NoContent();
         }
 
