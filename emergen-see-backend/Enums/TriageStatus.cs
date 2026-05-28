@@ -1,4 +1,4 @@
-﻿namespace emergen_see_backend.Enums
+namespace emergen_see_backend.Enums
 {
     public enum TriageStatus
     {

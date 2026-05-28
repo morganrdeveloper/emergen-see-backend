@@ -1,4 +1,4 @@
-﻿using emergen_see_backend.Enums;
+using emergen_see_backend.Enums;
 
 namespace emergen_see_backend.DTOs
 {

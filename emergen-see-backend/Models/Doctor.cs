@@ -1,4 +1,4 @@
-﻿namespace emergen_see_backend.Models
+namespace emergen_see_backend.Models
 {
     public class Doctor
     {

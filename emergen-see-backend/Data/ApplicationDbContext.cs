@@ -1,4 +1,4 @@
-﻿using emergen_see_backend.Models;
+using emergen_see_backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace emergen_see_backend.Data

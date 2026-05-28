@@ -1,4 +1,4 @@
-﻿namespace emergen_see_backend.DTOs
+namespace emergen_see_backend.DTOs
 {
     public class DoctorDto
     {

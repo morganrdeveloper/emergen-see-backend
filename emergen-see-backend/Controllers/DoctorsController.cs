@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using emergen_see_backend.Models;
 using emergen_see_backend.Services;
 using emergen_see_backend.DTOs;
